@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-class Honest_Dental_Blog extends \Elementor\Widget_Base {
+class Services_Addon extends \Elementor\Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -24,7 +24,7 @@ class Honest_Dental_Blog extends \Elementor\Widget_Base {
 	 * @return string Widget name.
 	 */
 	public function get_name() {
-		return 'blog';
+		return 'service-addon';
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Honest_Dental_Blog extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return esc_html__( 'Honest Dental Blog', 'honestdental-addon' );
+		return esc_html__( 'Services', 'honestdental-addon' );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Honest_Dental_Blog extends \Elementor\Widget_Base {
 			[
 				'label' => esc_html__( 'Post Per Page', 'plugin-name' ),
 				'type' => \Elementor\Controls_Manager::NUMBER,
-				'default' => 4,
+				'default' => 12,
 			]
 		);
 
@@ -148,23 +148,23 @@ class Honest_Dental_Blog extends \Elementor\Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'title_word_limit',
-			[
-				'label' => esc_html__( 'Title Word Limit', 'plugin-name' ),
-				'type' => \Elementor\Controls_Manager::NUMBER,
-				'default' => 6,
-			]
-		);
+		// $this->add_control(
+		// 	'title_word_limit',
+		// 	[
+		// 		'label' => esc_html__( 'Title Word Limit', 'plugin-name' ),
+		// 		'type' => \Elementor\Controls_Manager::NUMBER,
+		// 		'default' => 6,
+		// 	]
+		// );
 
-		$this->add_control(
-			'content_limit',
-			[
-				'label' => esc_html__( 'Content Limit', 'plugin-name' ),
-				'type' => \Elementor\Controls_Manager::NUMBER,
-				'default' => 10,
-			]
-		);
+		// $this->add_control(
+		// 	'content_limit',
+		// 	[
+		// 		'label' => esc_html__( 'Content Limit', 'plugin-name' ),
+		// 		'type' => \Elementor\Controls_Manager::NUMBER,
+		// 		'default' => 10,
+		// 	]
+		// );
 
 
 		$this->end_controls_section();
@@ -196,15 +196,15 @@ class Honest_Dental_Blog extends \Elementor\Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$content_limit = $settings['content_limit'];
-		$title_word_limit = $settings['title_word_limit'];
+		// $content_limit = $settings['content_limit'];
+		// $title_word_limit = $settings['title_word_limit'];
 	?>
-	<div class="enginescale-blog-section grid-container grid-wrapper">
+	<div class="services-wrapper">
 	<?php
 
 		// The Query
 		$args = array(
-			'post_type' => 'post',
+			'post_type' => 'service',
 			'posts_per_page'      => $settings['post_count'],
 			'post_status' => 'publish',
 			'ignore_sticky_posts' => 1,
@@ -220,24 +220,16 @@ class Honest_Dental_Blog extends \Elementor\Widget_Base {
 				$the_query->the_post();
 				
 				?>
-				<article id="post-<?php the_ID();?>" <?php post_class( 'single-item' );?>>
-					<?php if( has_post_thumbnail(  ) ): ?>
-					<a href="<?php the_permalink(  ); ?>" class="d-block blog-thumb-wrap">
-						<div class="blog-thumb" style="background-image: url(<?php  the_post_thumbnail_url('full'); ?>);"></div>
+				<article id="post-<?php the_ID();?>" <?php post_class( 'single-service-item' );?>>
+					<a class="d-block" href="<?php the_permalink(  ); ?>">
+						<?php if( has_post_thumbnail(  ) ): ?>
+							<?php the_post_thumbnail( 'full' ); ?>
+						<?php endif; ?>
+						<h2><?php echo wp_trim_words( get_the_title() ); ?></h2>
+						<span class="readmore">
+							<?php echo esc_html__( 'Read More', 'honestdental-addon' ) ?> <i class="fas fa-plus"></i>
+						</span>
 					</a>
-					<?php endif; ?>
-					<div class="blog-content">
-						<div>
-							<div class="blog-meta">
-								<p><strong><?php echo get_the_author(); ?></strong> | <?php echo get_the_date(); ?></p>
-							</div>
-							<a href="<?php the_permalink(  ); ?>" class="d-block"><h2><?php echo wp_trim_words( get_the_title(), $title_word_limit, '' ); ?></h2></a>
-							<div class="post-excerpt">
-								<p><?php echo wp_trim_words( get_the_content(), $content_limit, '...' ); ?></p>
-							</div>
-						</div>
-						<a href="<?php the_permalink(  ); ?>" class="redmore"> <?php echo esc_html__( 'Read more', 'hello-elementor' ) ?> <i class="fas fa-arrow-right"></i></a>
-					</div>
 				</article>
 				<?php
 			}

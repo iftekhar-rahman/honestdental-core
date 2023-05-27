@@ -244,8 +244,10 @@ final class Plugin {
 	public function register_widgets( $widgets_manager ) {
 
 		require_once( __DIR__ . '/widgets/honestdental-blog.php' );
+		require_once( __DIR__ . '/widgets/services.php' );
 
-		$widgets_manager->register( new \Honest_Dental_Addon\EngineScale_Blog() );
+		$widgets_manager->register( new \Honest_Dental_Addon\Honest_Dental_Blog() );
+		$widgets_manager->register( new \Honest_Dental_Addon\Services_Addon() );
 
 	}
 
